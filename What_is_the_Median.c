@@ -75,7 +75,13 @@ void insert_element(root *median,node *new) {
       _insert_right(median->right,new);
       median->right = median->current->right;
     }
-    else median->current = new;
+    else {
+      median->current = new;
+      median->current->left = median->left;
+      median->left->right = median->current;
+      median->current->right = median->right;
+      median->right->left = median->current;
+    }
   }
 }
 
@@ -87,7 +93,7 @@ int get_median(root *median){
   right = (median->right->value) >> 1;
   ans = left + right;
   if ((median->left->value)%2 && (median->right->value)%2) ans++;
-  return (median->left->value + median->right->value) >> 1;
+  return ans;
 }
 
 void free_root(root *median) {
